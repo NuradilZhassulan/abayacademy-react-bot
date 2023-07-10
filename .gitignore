@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-
+git init
 # production
 /build
 
