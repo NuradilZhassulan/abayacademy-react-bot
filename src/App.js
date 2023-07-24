@@ -7,10 +7,11 @@ import {Route, Routes} from 'react-router-dom'
 import Form from "./components/Form/Form";
 
 function App() {
-    const {onToggleButton, tg} = useTelegram();
+    const {tg} = useTelegram();
 
     useEffect(() => {
         tg.ready();
+        // eslint-disable-next-line
     }, [])
 
     return (
