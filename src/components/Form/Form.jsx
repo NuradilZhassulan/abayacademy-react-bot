@@ -3,20 +3,20 @@ import './Form.css';
 import {useTelegram} from "../../hooks/useTelegram";
 
 const Form = () => {
-    const [country, setCountry] = useState('');
-    const [street, setStreet] = useState('');
-    const [subject, setSubject] = useState('physical');
+    const [nameStudent, setNameStudent] = useState('');
+    const [classStudent, setClassStudent] = useState('');
+    const [amount, setAmount] = useState('');
     const {tg} = useTelegram();
 
     const onSendData = useCallback(() => {
         const data = {
-            country,
-            street,
-            subject
+            nameStudent,
+            classStudent,
+            amount
         }
         tg.sendData(JSON.stringify(data));
         // eslint-disable-next-line
-    }, [country, street, subject])
+    }, [nameStudent, classStudent, amount])
 
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData)
@@ -28,53 +28,56 @@ const Form = () => {
 
     useEffect(() => {
         tg.MainButton.setParams({
-            text: 'Отправить данные'
+            text: 'Записать ученика'
         })
         // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
-        if(!street || !country) {
+        if(!nameStudent || !classStudent || !amount) {
             tg.MainButton.hide();
         } else {
             tg.MainButton.show();
         }
         // eslint-disable-next-line
-    }, [country, street])
+    }, [nameStudent, classStudent, amount])
 
-    const onChangeCountry = (e) => {
-        setCountry(e.target.value)
+    const onChangeNameStudent = (e) => {
+        setNameStudent(e.target.value)
     }
 
-    const onChangeStreet = (e) => {
-        setStreet(e.target.value)
+    const onChangeClassStudent = (e) => {
+        setClassStudent(e.target.value)
     }
 
-    const onChangeSubject = (e) => {
-        setSubject(e.target.value)
+    const onChangeAmount = (e) => {
+        setAmount(e.target.value)
     }
 
     return (
         <div className={"form"}>
-            <h3>Введите ваши данные</h3>
+            <h3>Введите данные ученика</h3>
             <input
                 className={'input'}
                 type="text"
-                placeholder={'Страна'}
-                value={country}
-                onChange={onChangeCountry}
+                placeholder={'Имя ученика'}
+                value={nameStudent}
+                onChange={onChangeNameStudent}
             />
             <input
                 className={'input'}
                 type="text"
-                placeholder={'Улица'}
-                value={street}
-                onChange={onChangeStreet}
+                placeholder={'Класс'}
+                value={classStudent}
+                onChange={onChangeClassStudent}
             />
-            <select value={subject} onChange={onChangeSubject} className={'select'}>
-                <option value={'physical'}>Физ. лицо</option>
-                <option value={'legal'}>Юр. лицо</option>
-            </select>
+            <input
+                className={'input'}
+                type="text"
+                placeholder={'Сумма'}
+                value={amount}
+                onChange={onChangeAmount}
+            />
         </div>
     );
 };
