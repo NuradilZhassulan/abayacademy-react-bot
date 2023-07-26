@@ -6,17 +6,33 @@ const Form = () => {
     const [nameStudent, setNameStudent] = useState('');
     const [classStudent, setClassStudent] = useState('');
     const [amount, setAmount] = useState('');
-    const {tg} = useTelegram();
+    const {tg, queryId} = useTelegram();
 
     const onSendData = useCallback(() => {
         const data = {
             nameStudent,
             classStudent,
-            amount
+            amount, 
+            queryId
         }
-        tg.sendData(JSON.stringify(data));
-        // eslint-disable-next-line
+        fetch('http://85.119.146.179:8000/web-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
     }, [nameStudent, classStudent, amount])
+
+    // const onSendData = useCallback(() => {
+    //     const data = {
+    //         nameStudent,
+    //         classStudent,
+    //         amount
+    //     }
+    //     tg.sendData(JSON.stringify(data));
+    //     // eslint-disable-next-line
+    // }, [nameStudent, classStudent, amount])
 
     useEffect(() => {
         tg.onEvent('mainButtonClicked', onSendData)
