@@ -22,7 +22,7 @@ const Form = () => {
             },
             body: JSON.stringify(data)
         })
-    }, [nameStudent, classStudent, amount])
+    }, [nameStudent, classStudent, amount, queryId])
 
     // const onSendData = useCallback(() => {
     //     const data = {
